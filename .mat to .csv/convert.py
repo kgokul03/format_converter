@@ -10,10 +10,10 @@ output_folder = "./output"
 
 def process(folder,path):
     if folder:
-        rgb = scipy.io.loadmat(os.path.join(folder,path))
+        input = scipy.io.loadmat(os.path.join(folder,path))
     else:
-        rgb = scipy.io.loadmat(path)
-    mat = rgb
+        input = scipy.io.loadmat(path)
+    mat = input
     X = mat['X']    # data
     X = X.astype(float)
     y = mat['Y']    # label 
@@ -40,23 +40,23 @@ def main(args):
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
-    if args.rgb_folder:
-        rgb_pths = os.listdir(args.rgb_folder)
+    if args.input_folder:
+        input_pths = os.listdir(args.input_folder)
         count = 1
-        for rgb_pth in rgb_pths:
-            print("File ",count,":", rgb_pth)
+        for input_pth in input_pths:
+            print("File ",count,":", input_pth)
             count+=1
-            process(args.rgb_folder,rgb_pth)
+            process(args.input_folder,input_pth)
     else:
-        process(None,args.rgb)
+        process(None,args.input)
 
 def parse_arguments(argv):
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--rgb', type=str,
-		help='input rgb',default = None)
-	parser.add_argument('--rgb_folder', type=str,
-		help='input rgb',default = None)
+	parser.add_argument('--input', type=str,
+		help='input input',default = None)
+	parser.add_argument('--input_folder', type=str,
+		help='input input',default = None)
 	parser.add_argument('--gpu_fraction', type=float,
 		help='how much gpu is needed, usually 4G is enough',default = 1.0)
 	return parser.parse_args(argv)
